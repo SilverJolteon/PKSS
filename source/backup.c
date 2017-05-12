@@ -28,7 +28,6 @@ void WriteConfig(){
 	FILE *config;
 	config = fopen("/PKSS/config", "w");
 	
-	printf("%s", saves[1][0]);
 	fprintf(config, "{\nX:");
 	for(i = 0; i <= entries[0]; i++){
 		if(entries[0] > -1){
@@ -79,9 +78,13 @@ void ReadConfig(){
 	if(config == NULL){
 		consoleClear();
 		printf("\x1b[0m");
-		printf("\x1b[4;0HCreating PKSS Directory...");
+		printf("\x1b[0;0H%s", header);
+		printf("\x1b[0m");
+		printf("\x1b[2;0HCreating PKSS Directory...");
 		InitSD("/PKSS");
 		config = fopen("/PKSS/config", "w");
+		svcSleepThread(1000000000);
+		consoleClear();
 	}
 	
 	while(fgets(line, sizeof(line), config) != NULL){
@@ -119,11 +122,5 @@ void ReadConfig(){
 		
 		
 	}
-	fclose(config);
-	
-	header = calloc(strlen("PKSS v") + 10, 1);
-	sprintf(header, "PKSS v%s", version);
-	printf("\x1b[0m");
-	printf("\x1b[0;0H%s", header);
-	
+	fclose(config);	
 }

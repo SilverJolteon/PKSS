@@ -1,6 +1,6 @@
 #include "global.h"
 
-char* version = "0.0.1";
+char* version = "0.5.1";
 char* header;
 char list[6][2] = {"X", "Y", "OR", "AS", "S", "M"};
 int num, entries[6] = {-1, -1, -1, -1, -1, -1}, active[] = {0, 0, 0, 0, 0, 0};;
@@ -67,6 +67,11 @@ gametitle getName(char* game, int check){
 int main(){
 	gfxInitDefault();
 	consoleInit(GFX_TOP, NULL);
+	consoleClear();
+	header = calloc(strlen("PKSS v") + 10, 1);
+	sprintf(header, "PKSS v%s", version);
+	printf("\x1b[0m");
+	printf("\x1b[0;0H%s", header);
 	ReadConfig();
 	Menu();
 	return 0;
@@ -77,10 +82,10 @@ int ChooseGame(char* game){
 	consoleClear();
 	printf("\x1b[0m");
 	printf("\x1b[0;0H%s", header);
-	printf("\x1b[4;0HReading Game...");
+	printf("\x1b[2;0HReading Game...");
 	gametitle result = getName(game, 0);
 	if(InitGame(result.titleid, result.name) == result.titleid){
-		printf("\x1b[6;0H");
+		printf("\x1b[4;0H");
 		printf("\x1b[32mRead Game!\x1b[2m");
 		InitSD(result.name);
 		gamepath = result.name;
@@ -88,7 +93,7 @@ int ChooseGame(char* game){
 		return 1;
 	}
 	else{
-		printf("\x1b[6;0H");
+		printf("\x1b[4;0H");
 		printf("\x1b[31mFailed to read game!\x1b[2m");
 		return 0;
 	}

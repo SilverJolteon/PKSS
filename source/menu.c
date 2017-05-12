@@ -2,8 +2,10 @@
 
 int Menu(){
 	CheckGame();
-	
-	printf("\x1b[4;0H");
+	consoleClear();
+	printf("\x1b[0m");
+	printf("\x1b[0;0H%s", header);
+	printf("\x1b[2;0H");
 	if(active[0] == 1){
 		printf("X: Left\n");
 	}
@@ -60,7 +62,7 @@ int Menu(){
 			GetArch();
 			Backup();
 			printf("\x1b[0m");
-			printf("\x1b[8;0HBacked up to sdmc:%s", gamepath);
+			printf("\x1b[6;0HBacked up to sdmc:%s", gamepath);
 		}
 		
 		gfxFlushBuffers();
