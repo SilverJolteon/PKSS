@@ -44,8 +44,6 @@ AUDIO := assets/audio.wav
 
 APP_PRODUCT_CODE := CTR-P-PKSS
 APP_UNIQUE_ID := 0xF5353
-APP_VERSION_MINOR := 0
-APP_VERSION_MICRO := 1
 APP_SYSTEM_MODE := 64MB
 APP_SYSTEM_MODE_EXT := Legacy
 
@@ -146,9 +144,7 @@ export BUILD_ARGS := \
 -DAPP_SYSTEM_MODE=$(APP_SYSTEM_MODE) \
 -DAPP_SYSTEM_MODE_EXT=$(APP_SYSTEM_MODE_EXT) \
 -elf $(OUTPUT).elf -rsf "$(TOPDIR)/assets/cia.rsf" \
--icon $(TOPDIR)/icon.bin -banner $(TOPDIR)/banner.bin -exefslogo -target t \
--minor $(APP_VERSION_MINOR) \
--micro $(APP_VERSION_MICRO)
+-icon $(TOPDIR)/icon.bin -banner $(TOPDIR)/banner.bin -exefslogo -target t
 
 .PHONY: $(BUILD) clean all
 

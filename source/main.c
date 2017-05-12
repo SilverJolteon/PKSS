@@ -1,8 +1,8 @@
 #include "global.h"
 
-char* version = "0.5.1";
+char* version = "0.5.2";
 char* header;
-char list[6][2] = {"X", "Y", "OR", "AS", "S", "M"};
+char list[6][4] = {"X", "Y", "OR", "AS", "S", "M"};
 int num, entries[6] = {-1, -1, -1, -1, -1, -1}, active[] = {0, 0, 0, 0, 0, 0};;
 char saves[6][64][64];
 char* dir = "/PKSS";
@@ -87,9 +87,11 @@ int ChooseGame(char* game){
 	if(InitGame(result.titleid, result.name) == result.titleid){
 		printf("\x1b[4;0H");
 		printf("\x1b[32mRead Game!\x1b[2m");
-		InitSD(result.name);
 		gamepath = result.name;
 		titleid = result.titleid;
+		if(GetArch() == 0){
+			InitSD(result.name);
+		}
 		return 1;
 	}
 	else{

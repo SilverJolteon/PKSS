@@ -3,7 +3,7 @@
 #include <string.h>
 #include <3ds.h>
 
-int x, Menu(), ChooseGame(), buffer_to_file();
+int x, Menu(), ChooseGame(), buffer_to_file(), DisplaySaves();
 char* InitPath();
 char* GetString();
 char* get_files();
@@ -14,7 +14,7 @@ u64 InitGame(), filesize_to_u64(), GetTitleID();
 void CheckGame(), Backup(), ReadConfig(), WriteConfig();
 
 extern int num, active[], entries[6];
-extern char list[6][2];
+extern char list[6][4];
 extern char saves[6][64][64];
 extern char* version;
 extern char* header;

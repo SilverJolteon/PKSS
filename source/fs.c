@@ -26,6 +26,7 @@ u64 InitGame(u64 titleid, char* name){
 }
 
 FS_Archive GetArch(){
+	int error = 0;
 	u32* path;
 	FS_Path game_binpath;
 	
@@ -34,6 +35,9 @@ FS_Archive GetArch(){
 	
 	path = (u32[3]){mediatype, lowerid, upperid};
 	game_binpath = (FS_Path){PATH_BINARY, 12, path};
-	FSUSER_OpenArchive(&game_arch, ARCHIVE_USER_SAVEDATA, game_binpath);
+	error = FSUSER_OpenArchive(&game_arch, ARCHIVE_USER_SAVEDATA, game_binpath);
+	if(error != 0){
+		return 1;
+	}
 	return 0;
 }

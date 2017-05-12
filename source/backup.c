@@ -23,6 +23,20 @@ void Backup(){
 	WriteConfig();
 }
 
+int DisplaySaves(){
+	int y;
+	printf("\x1b[0m");
+	printf("\x1b[6;0HDisplaying saves for %s:\n\n", list[num]);
+	for(y = 0; y <= entries[num]; y++){
+		printf("\x1b[36m- %s", saves[num][y]);
+		if(y < entries[num]){
+			printf("\n");
+		}
+	}
+	printf("\n\n\x1b[0mPress A to create a backup");
+	return 0;
+}
+
 void WriteConfig(){
 	int i;
 	FILE *config;

@@ -25,6 +25,7 @@ int Menu(){
 		printf("Moon: Y");
 	}
 	
+	int disp = 0;
 	while(aptMainLoop()){
 		hidScanInput();
 		u32 kDown = hidKeysDown();
@@ -58,11 +59,40 @@ int Menu(){
 			chose = 1;
 			num = 5;
 		}
-		if(chose == 1){
-			GetArch();
+		if((kDown & KEY_A) && disp == 1){
 			Backup();
+			consoleClear();
 			printf("\x1b[0m");
-			printf("\x1b[6;0HBacked up to sdmc:%s", gamepath);
+			printf("\x1b[0;0H%s", header);
+			printf("\x1b[2;0HReading Game...");
+			printf("\x1b[4;0H");
+			printf("\x1b[32mRead Game!\x1b[2m");
+			printf("\x1b[0m");
+			printf("\x1b[28;0HBacked up to sdmc:%s", gamepath);
+		}
+		if(chose == 1){
+			if(GetArch() == 0){
+				if(entries[num] <= -1){
+					Backup();
+					consoleClear();
+					printf("\x1b[0m");
+					printf("\x1b[0;0H%s", header);
+					printf("\x1b[2;0HReading Game...");
+					printf("\x1b[4;0H");
+					printf("\x1b[32mRead Game!\x1b[2m");
+					printf("\x1b[0m");
+					printf("\x1b[28;0HBacked up to sdmc:%s", gamepath);
+				}
+				if(entries[num] > -1){
+					DisplaySaves();
+					disp = 1;
+				}
+			}
+			else{
+				printf("\x1b[6;0H");
+				printf("\x1b[2m");
+				printf("\x1b[31mFailed to read game archive!\x1b[2m");
+			}
 		}
 		
 		gfxFlushBuffers();
