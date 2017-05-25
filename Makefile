@@ -50,28 +50,26 @@ APP_SYSTEM_MODE_EXT := Legacy
 #---------------------------------------------------------------------------------
 # options for code generation
 #---------------------------------------------------------------------------------
-ARCH	:=	-march=armv6k -mtune=mpcore -mfloat-abi=hard
+ARCH	:=	-march=armv6k -mtune=mpcore -mfloat-abi=hard -mtp=soft
 
-CFLAGS	:=	-g -Wall -O2 -mword-relocations \
-			-fomit-frame-pointer -ffast-math \
+CFLAGS	:=	-ggdb -Wall -O2 -mword-relocations \
+			-ffunction-sections  \
 			$(ARCH)
 
 CFLAGS	+=	$(INCLUDE) -DARM11 -D_3DS
 
 CXXFLAGS	:= $(CFLAGS) -fno-rtti -fno-exceptions -std=gnu++11
 
-ASFLAGS	:=	-g $(ARCH)
-LDFLAGS	=	-specs=3dsx.specs -g $(ARCH) -Wl,-Map,$(notdir $*.map)
+ASFLAGS	:=	-ggdb $(ARCH)
+LDFLAGS	=	-specs=3dsx.specs -ggdb $(ARCH) -Wl,-Map,$(notdir $*.map)
 
-LIBS	:= -lctru -lm
-
-UNAME := $(shell uname)
+LIBS	:= -lsfil -lsftd -lfreetype -lpng -lz -lsf2d -lcitro3d -lctru -lm
 
 #---------------------------------------------------------------------------------
 # list of directories containing libraries, this must be the top level containing
 # include and lib
 #---------------------------------------------------------------------------------
-LIBDIRS	:= $(CTRULIB)
+LIBDIRS	:= $(CTRULIB) $(PORTLIBS)
 
 
 #---------------------------------------------------------------------------------
@@ -162,8 +160,17 @@ $(BUILD):
 #---------------------------------------------------------------------------------
 clean:
 	@rm -fr $(BUILD) $(TARGET).3dsx $(OUTPUT).smdh $(OUTPUT).elf $(OUTPUT).cia icon.bin banner.bin
-	@echo Cleaning all files...
+	@cls
+	@echo Compiling...
+	@$(MAKE) --no-print-directory
+	
+clear:
+	@rm -fr $(BUILD) $(TARGET).3dsx $(OUTPUT).smdh $(OUTPUT).elf $(OUTPUT).cia icon.bin banner.bin
+	@cls
+	@echo Cleaned up files!
 
+send:
+	@3dslink $(TARGET).3dsx
 #---------------------------------------------------------------------------------
 else
 

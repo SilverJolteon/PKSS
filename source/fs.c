@@ -41,3 +41,10 @@ FS_Archive GetArch(){
 	}
 	return 0;
 }
+
+char* InitPath(char* pathname){
+	char* dir3 = calloc(strlen(pathname) + 20, 1);
+	gametitle result = getName(gameversion, 0);
+	sprintf(dir3, "%s/%s", result.name, pathname);
+	return dir3;
+}

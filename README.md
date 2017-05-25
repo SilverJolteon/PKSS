@@ -14,16 +14,17 @@ PKSS (*Pokemon Save Selector*) is an app that adds multiple save files to Pokemo
 
 ### Todo
 
+* Edit UI
 * Restore saves
 * Swap saves
 * Rename saves
 * Delete saves
 * Copy saves
 * Launch Game Automatically
-* Add UI
 * Import from JKSM
 * LayeredFS options
 * VC Options
+* Possibly also NDS Cartridge Options
 
 ### Credit
 

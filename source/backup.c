@@ -23,118 +23,21 @@ void Backup(){
 	WriteConfig();
 }
 
-int DisplaySaves(){
-	int y;
-	printf("\x1b[0m");
-	printf("\x1b[6;0HDisplaying saves for %s:\n\n", list[num]);
-	for(y = 0; y <= entries[num]; y++){
-		printf("\x1b[36m- %s", saves[num][y]);
-		if(y < entries[num]){
-			printf("\n");
-		}
-	}
-	printf("\n\n\x1b[0mPress A to create a backup");
-	return 0;
-}
+char* GetString(char* desc){
+	SwkbdState state;
+	char* input = calloc(64, 1);
+	
+	swkbdInit(&state, SWKBD_TYPE_QWERTY, 2, 64);
+	swkbdSetHintText(&state, desc);
 
-void WriteConfig(){
-	int i;
-	FILE *config;
-	config = fopen("/PKSS/config", "w");
-	
-	fprintf(config, "{\nX:");
-	for(i = 0; i <= entries[0]; i++){
-		if(entries[0] > -1){
-			fprintf(config, "\n%s", saves[0][i]);
-		}
+	swkbdInputText(&state, input, 64);
+	if(strcmp(input, "") == 0){
+		return NULL;
 	}
-	fprintf(config, "\n}\n{\nY:");
-	for(i = 0; i <= entries[1]; i++){
-		if(entries[1] > -1){
-			fprintf(config, "\n%s", saves[1][i]);
-		}
-	}
-	fprintf(config, "\n}\n{\nOR:");
-	for(i = 0; i <= entries[2]; i++){
-		if(entries[2] > -1){
-			fprintf(config, "\n%s", saves[2][i]);
-		}
-	}
-	fprintf(config, "\n}\n{\nAS:");
-	for(i = 0; i <= entries[3]; i++){
-		if(entries[3] > -1){
-			fprintf(config, "\n%s", saves[3][i]);
-		}
-	}
-	fprintf(config, "\n}\n{\nS:");
-	for(i = 0; i <= entries[4]; i++){
-		if(entries[4] > -1){
-			fprintf(config, "\n%s", saves[4][i]);
-		}
-	}
-	fprintf(config, "\n}\n{\nM:");
-	for(i = 0; i <= entries[5]; i++){
-		if(entries[5] > -1){
-			fprintf(config, "\n%s", saves[5][i]);
-		}
-	}
-	fprintf(config, "\n}");
-	fclose(config);
-}
-
-void ReadConfig(){
-	FILE *config;
-	char line[64];
-	int sgame = 0, toggle = 0, l = -1;
-	
-	config = fopen("/PKSS/config", "r+");
-	
-	if(config == NULL){
-		consoleClear();
-		printf("\x1b[0m");
-		printf("\x1b[0;0H%s", header);
-		printf("\x1b[0m");
-		printf("\x1b[2;0HCreating PKSS Directory...");
-		InitSD("/PKSS");
-		config = fopen("/PKSS/config", "w");
-		svcSleepThread(1000000000);
-		consoleClear();
-	}
-	
-	while(fgets(line, sizeof(line), config) != NULL){
-		if((line[0] == 'X') && (line[1] == ':')){
-			sgame = 0, toggle = 1, l = -1;
-		}
-		if((line[0] == 'Y') && (line[1] == ':')){
-			sgame = 1, toggle = 1, l = -1;
-		}
-		if((line[0] == 'O') && (line[1] == 'R') && (line[2] == ':')){
-			sgame = 2, toggle = 1, l = -1;
-		}
-		if((line[0] == 'A') && (line[1] == 'S') && (line[2] == ':')){
-			sgame = 3, toggle = 1, l = -1;
-		}
-		if((line[0] == 'S') && (line[1] == ':')){
-			sgame = 4, toggle = 1, l = -1;
-		}
-		if((line[0] == 'M') && (line[1] == ':')){
-			sgame = 5, toggle = 1, l = -1;
-		}
-		if((line[0] == '{') || (line[0] == '}')){
-			toggle = 1, l = -1;
-		}
-		if((toggle == 0) && (line != NULL)){
-			char temp[64] = "";
-			for(x = 0; x < strlen(line)-1; x++){
-				sprintf(temp, "%s%c", temp, line[x]);
-			}
-			sprintf(saves[sgame][l], temp);
-			entries[sgame]++;
-		}
-		toggle = 0;
-		l++;
-		
-		
-	}
-	fclose(config);	
+	char* temp = gamepath;
+	char* temp2 = "null";
+	temp2 = calloc(strlen(temp) + strlen(input) + 10, 1);
+	sprintf(temp2, "%s/%s", temp, input);
+	gamepath = temp2;
+	return input;
 }
