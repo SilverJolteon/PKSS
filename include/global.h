@@ -7,7 +7,9 @@
 #include <sfil.h>
 
 #include "font_ttf.h"
+#include "fontb_ttf.h"
 #include "bottom_png.h"
+#include "saves_png.h"
 #define AREA(px, py, xmin, ymin, xmax, ymax) ((px < xmax && px > xmin) && (py < ymax && py > ymin))
 
 int x, ChooseGame(), buffer_to_file(), DisplaySaves();
@@ -35,7 +37,9 @@ extern u64 titleid;
 extern FS_Archive sdmc_arch, game_arch;
 extern FS_MediaType mediatype;
 extern sftd_font* font;
+extern sftd_font* fontb;
 extern sf2d_texture* img;
+extern sf2d_texture* saveslots;
 
 typedef struct{
 	u64 titleid;
