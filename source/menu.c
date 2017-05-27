@@ -42,11 +42,13 @@ void Menu(){
 		}
 		
 		sf2d_start_frame(GFX_TOP, GFX_LEFT);
-			DisplayText(header, 0, 0, 14, 255, 255, 255);
+			sf2d_draw_texture(top, 0, 0);
+			DisplayText(version, 250, 155, 14, 255, 255, 255);
 		sf2d_end_frame();
 		
 		sf2d_start_frame(GFX_BOTTOM, GFX_LEFT);
-			sf2d_draw_texture(img, 0, 0);
+			sf2d_draw_texture(bottom, 0, 0);
+			sf2d_draw_texture(UI, 0, 0);
 			DisplayText("PKSS", 130, 66, 14, 255, 255, 255);
 			if(active[0] == 1){
 				DisplayText("X", 84, 96, 14, 255, 255, 255);
@@ -73,7 +75,8 @@ void Menu(){
 
 void Menu2(){
 		sf2d_start_frame(GFX_TOP, GFX_LEFT);
-			DisplayText(header, 0, 0, 14, 255, 255, 255);
+			sf2d_draw_texture(top, 0, 0);
+			DisplayText(version, 250, 155, 14, 255, 255, 255);
 		sf2d_end_frame();
 		
 		sf2d_start_frame(GFX_BOTTOM, GFX_LEFT);
