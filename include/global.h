@@ -14,9 +14,11 @@
 #include "UI_png.h"
 #include "blank_png.h"
 #include "saves_png.h"
+#include "cursorl_png.h"
+#include "cursorr_png.h"
 #define AREA(px, py, xmin, ymin, xmax, ymax) ((px < xmax && px > xmin) && (py < ymax && py > ymin))
 
-int x, page, ChooseGame(), buffer_to_file(), DisplaySaves();
+int x, page, ChooseGame(), buffer_to_file();
 char* InitPath();
 char* GetString();
 char* get_files();
@@ -47,6 +49,8 @@ extern sf2d_texture* bottom;
 extern sf2d_texture* UI;
 extern sf2d_texture* blank;
 extern sf2d_texture* saveslots;
+extern sf2d_texture* cursorl;
+extern sf2d_texture* cursorr;
 
 typedef struct{
 	u64 titleid;

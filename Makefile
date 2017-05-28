@@ -174,10 +174,11 @@ cia:
 	@cls
 	@echo Compiling...
 	@$(MAKE) --no-print-directory
-	@$(TOPDIR)/tools/windows/bannertool.exe makesmdh -s $(APP_TITLE) -l $(APP_TITLE) -p $(APP_AUTHOR) -i $(TOPDIR)/$(ICON) -o $(TOPDIR)/icon.bin -f visible allow3d
-	@$(TOPDIR)/tools/windows/bannertool.exe makebanner -i $(TOPDIR)/$(BANNER) -a $(TOPDIR)/$(AUDIO) -o $(TOPDIR)/banner.bin
-	@$(TOPDIR)/tools/windows/makerom.exe -f cia -o $(OUTPUT).cia $(BUILD_ARGS)
+	@$(TOPDIR)/tools/bannertool.exe makesmdh -s $(APP_TITLE) -l $(APP_TITLE) -p $(APP_AUTHOR) -i $(TOPDIR)/$(ICON) -o $(TOPDIR)/icon.bin -f visible allow3d
+	@$(TOPDIR)/tools/bannertool.exe makebanner -i $(TOPDIR)/$(BANNER) -a $(TOPDIR)/$(AUDIO) -o $(TOPDIR)/banner.bin
+	@$(TOPDIR)/tools/makerom.exe -f cia -o $(OUTPUT).cia $(BUILD_ARGS)
 	@rm -fr icon.bin banner.bin
+	@echo built ... $(TARGET).cia
 	@echo Cleaning temp files...
 	@echo Done!
 #---------------------------------------------------------------------------------
