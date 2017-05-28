@@ -153,9 +153,6 @@ all: $(BUILD)
 $(BUILD):
 	@[ -d $@ ] || mkdir -p $@
 	@$(MAKE) --no-print-directory -C $(BUILD) -f $(CURDIR)/Makefile
-	@rm -fr icon.bin banner.bin
-	@echo Cleaning temp files...
-	@echo Done!
 
 #---------------------------------------------------------------------------------
 clean:
@@ -163,6 +160,7 @@ clean:
 	@cls
 	@echo Compiling...
 	@$(MAKE) --no-print-directory
+	@echo Done!
 	
 clear:
 	@rm -fr $(BUILD) $(TARGET).3dsx $(OUTPUT).smdh $(OUTPUT).elf $(OUTPUT).cia icon.bin banner.bin
@@ -171,6 +169,17 @@ clear:
 
 send:
 	@3dslink $(TARGET).3dsx
+cia:
+	@rm -fr $(BUILD) $(TARGET).3dsx $(OUTPUT).smdh $(OUTPUT).elf $(OUTPUT).cia icon.bin banner.bin
+	@cls
+	@echo Compiling...
+	@$(MAKE) --no-print-directory
+	@$(TOPDIR)/tools/windows/bannertool.exe makesmdh -s $(APP_TITLE) -l $(APP_TITLE) -p $(APP_AUTHOR) -i $(TOPDIR)/$(ICON) -o $(TOPDIR)/icon.bin -f visible allow3d
+	@$(TOPDIR)/tools/windows/bannertool.exe makebanner -i $(TOPDIR)/$(BANNER) -a $(TOPDIR)/$(AUDIO) -o $(TOPDIR)/banner.bin
+	@$(TOPDIR)/tools/windows/makerom.exe -f cia -o $(OUTPUT).cia $(BUILD_ARGS)
+	@rm -fr icon.bin banner.bin
+	@echo Cleaning temp files...
+	@echo Done!
 #---------------------------------------------------------------------------------
 else
 
@@ -180,48 +189,14 @@ DEPENDS	:=	$(OFILES:.o=.d)
 # main targets
 #---------------------------------------------------------------------------------
 ifeq ($(strip $(NO_SMDH)),)
-$(OUTPUT).3dsx	:	$(OUTPUT).smdh icon.bin banner.bin $(OUTPUT).elf $(OUTPUT).cia
+$(OUTPUT).3dsx	:	$(OUTPUT).smdh $(OUTPUT).elf
 else
-$(OUTPUT).3dsx	:	icon.bin banner.bin $(OUTPUT).elf $(OUTPUT).cia
-endif
-
-#---------------------------------------------------------------------------------
-icon.bin	:	
-#---------------------------------------------------------------------------------
-ifeq ($(UNAME), Linux)
-	@$(TOPDIR)/tools/linux/bannertool makesmdh -s $(APP_TITLE) -l $(APP_TITLE) -p $(APP_AUTHOR) -i $(TOPDIR)/$(ICON) -o $(TOPDIR)/icon.bin -f visible allow3d
-else ifeq ($(UNAME), Darwin)
-	@$(TOPDIR)/tools/osx/bannertool makesmdh -s $(APP_TITLE) -l $(APP_TITLE) -p $(APP_AUTHOR) -i $(TOPDIR)/$(ICON) -o $(TOPDIR)/icon.bin -f visible allow3d
-else
-	@$(TOPDIR)/tools/windows/bannertool.exe makesmdh -s $(APP_TITLE) -l $(APP_TITLE) -p $(APP_AUTHOR) -i $(TOPDIR)/$(ICON) -o $(TOPDIR)/icon.bin -f visible allow3d
-endif
-
-#---------------------------------------------------------------------------------
-banner.bin	:	
-#---------------------------------------------------------------------------------
-ifeq ($(UNAME), Linux)
-	@$(TOPDIR)/tools/linux/bannertool makebanner -i $(TOPDIR)/$(BANNER) -a $(TOPDIR)/$(AUDIO) -o $(TOPDIR)/banner.bin
-else ifeq ($(UNAME), Darwin)
-	@$(TOPDIR)/tools/osx/bannertool makebanner -i $(TOPDIR)/$(BANNER) -a $(TOPDIR)/$(AUDIO) -o $(TOPDIR)/banner.bin
-else
-	@$(TOPDIR)/tools/windows/bannertool.exe makebanner -i $(TOPDIR)/$(BANNER) -a $(TOPDIR)/$(AUDIO) -o $(TOPDIR)/banner.bin
+$(OUTPUT).3dsx	:	$(OUTPUT).elf
 endif
 
 #---------------------------------------------------------------------------------
 $(OUTPUT).elf	:	$(OFILES)
 #---------------------------------------------------------------------------------
-
-#---------------------------------------------------------------------------------
-$(OUTPUT).cia	:	$(OUTPUT).elf icon.bin banner.bin
-#---------------------------------------------------------------------------------
-ifeq ($(UNAME), Linux)
-	@$(TOPDIR)/tools/linux/makerom -f cia -o $(OUTPUT).cia $(BUILD_ARGS)
-else ifeq ($(UNAME), Darwin)
-	@$(TOPDIR)/tools/osx/makerom -f cia -o $(OUTPUT).cia $(BUILD_ARGS)
-else
-	@$(TOPDIR)/tools/windows/makerom.exe -f cia -o $(OUTPUT).cia $(BUILD_ARGS)
-endif
-	@echo built ... $(TARGET).cia
 
 #---------------------------------------------------------------------------------
 # you need a rule like this for each extension you use as binary data

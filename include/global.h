@@ -12,6 +12,7 @@
 #include "top_png.h"
 #include "bottom_png.h"
 #include "UI_png.h"
+#include "blank_png.h"
 #include "saves_png.h"
 #define AREA(px, py, xmin, ymin, xmax, ymax) ((px < xmax && px > xmin) && (py < ymax && py > ymin))
 
@@ -44,6 +45,7 @@ extern sftd_font* fontb;
 extern sf2d_texture* top;
 extern sf2d_texture* bottom;
 extern sf2d_texture* UI;
+extern sf2d_texture* blank;
 extern sf2d_texture* saveslots;
 
 typedef struct{

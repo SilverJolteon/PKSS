@@ -18,7 +18,7 @@ void Backup(){
 	free(buf);
 	
 	entries[num]++;
-	sprintf((saves[num][entries[num]]), "%s", savename);
+	sprintf((saves[num][entries[num] - 1]), "%s", savename);
 	
 	WriteConfig();
 }

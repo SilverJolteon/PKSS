@@ -54,38 +54,38 @@ void WriteConfig(){
 	config = fopen("/PKSS/config", "w");
 	
 	fprintf(config, "{\nX:");
-	for(i = 0; i <= entries[0]; i++){
-		if(entries[0] > -1){
+	for(i = 0; i < entries[0]; i++){
+		if(entries[0] > 0){
 			fprintf(config, "\n%s", saves[0][i]);
 		}
 	}
 	fprintf(config, "\n}\n{\nY:");
-	for(i = 0; i <= entries[1]; i++){
-		if(entries[1] > -1){
+	for(i = 0; i < entries[1]; i++){
+		if(entries[1] > 0){
 			fprintf(config, "\n%s", saves[1][i]);
 		}
 	}
 	fprintf(config, "\n}\n{\nOR:");
-	for(i = 0; i <= entries[2]; i++){
-		if(entries[2] > -1){
+	for(i = 0; i < entries[2]; i++){
+		if(entries[2] > 0){
 			fprintf(config, "\n%s", saves[2][i]);
 		}
 	}
 	fprintf(config, "\n}\n{\nAS:");
-	for(i = 0; i <= entries[3]; i++){
-		if(entries[3] > -1){
+	for(i = 0; i < entries[3]; i++){
+		if(entries[3] > 0){
 			fprintf(config, "\n%s", saves[3][i]);
 		}
 	}
 	fprintf(config, "\n}\n{\nS:");
-	for(i = 0; i <= entries[4]; i++){
-		if(entries[4] > -1){
+	for(i = 0; i < entries[4]; i++){
+		if(entries[4] > 0){
 			fprintf(config, "\n%s", saves[4][i]);
 		}
 	}
 	fprintf(config, "\n}\n{\nM:");
-	for(i = 0; i <= entries[5]; i++){
-		if(entries[5] > -1){
+	for(i = 0; i < entries[5]; i++){
+		if(entries[5] > 0){
 			fprintf(config, "\n%s", saves[5][i]);
 		}
 	}
