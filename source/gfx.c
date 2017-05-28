@@ -12,6 +12,8 @@ void InitGFX(){
 	saveslots = sfil_load_PNG_buffer(saves_png, SF2D_PLACE_RAM);
 	cursorl = sfil_load_PNG_buffer(cursorl_png, SF2D_PLACE_RAM);
 	cursorr = sfil_load_PNG_buffer(cursorr_png, SF2D_PLACE_RAM);
+	arrowl = sfil_load_PNG_buffer(arrowl_png, SF2D_PLACE_RAM);
+	arrowr = sfil_load_PNG_buffer(arrowr_png, SF2D_PLACE_RAM);
 	sf2d_set_clear_color(RGBA8(100, 100, 120, 255));
 	sftd_draw_textf(font, 0, 0, RGBA8(255, 0, 0, 255), 14, "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz1234567890:-.'!?()\"end");
 	sftd_draw_textf(fontb, 0, 0, RGBA8(255, 0, 0, 255), 14, "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz1234567890:-.'!?()\"end");

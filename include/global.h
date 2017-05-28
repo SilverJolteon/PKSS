@@ -16,6 +16,8 @@
 #include "saves_png.h"
 #include "cursorl_png.h"
 #include "cursorr_png.h"
+#include "arrowl_png.h"
+#include "arrowr_png.h"
 #define AREA(px, py, xmin, ymin, xmax, ymax) ((px < xmax && px > xmin) && (py < ymax && py > ymin))
 
 int x, page, ChooseGame(), buffer_to_file();
@@ -51,6 +53,8 @@ extern sf2d_texture* blank;
 extern sf2d_texture* saveslots;
 extern sf2d_texture* cursorl;
 extern sf2d_texture* cursorr;
+extern sf2d_texture* arrowl;
+extern sf2d_texture* arrowr;
 
 typedef struct{
 	u64 titleid;

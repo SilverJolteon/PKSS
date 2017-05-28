@@ -153,7 +153,7 @@ void Menu(){
 void Menu2(){
 	int y, pnt = 25;
 	while(aptMainLoop()){
-		int pagenum = ceil(entries[num] / (float)5);
+		int pagenum = ceil(entries[num] / (float)6);
 		hidScanInput();
 		u32 kDown = hidKeysDown();
 		if(kDown & KEY_Y){
@@ -194,7 +194,13 @@ void Menu2(){
 			sftd_draw_textf(fontb, 75, 9, RGBA8(64, 64, 64, 255), 14, "Displaying saves for %s:", list[num]);
 			sftd_draw_text(font, 66, 216, RGBA8(64, 64, 64, 255), 14, "Press Y to create a backup");
 		for(((y = ((6 * page) - 6))); y < ((((entries[num] - 6 * page) >= 0) * 6 * page) + (((entries[num] - 6 * page) < 0) * ((6 * (page - 1)) + entries[num] - 6 * (page - 1)))); y++){
-			sftd_draw_textf(font, 45, (y + 1) * fontspace + 6 - 180 * (page - 1), RGBA8(32, 32, 32, 255), 14, "(%d) %s", y + 1, saves[num][y]);
+			sftd_draw_textf(font, 45, (y + 1) * fontspace + 6 - 180 * (page - 1), RGBA8(32, 32, 32, 255), 14, "%d: %s", y + 1, saves[num][y]);
+		}
+		if(page > 1){
+			sf2d_draw_texture(arrowl, 9, 110);
+		}
+		if(page < pagenum){
+			sf2d_draw_texture(arrowr, 297, 110);
 		}
 		sf2d_draw_texture(cursorl, 25, pnt);
 		sf2d_draw_texture(cursorr, 281, pnt);
