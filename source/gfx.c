@@ -29,3 +29,11 @@ void FinitGFX(){
 void DisplayText(char* text, int x, int y, int size, int R, int G, int B){
 	sftd_draw_text(fontb, x, y,  RGBA8(R, G, B, 255), size, text);
 }
+
+CenterText Center(char* text, int ix, int iy, int iw, int ih){
+	int width = sftd_get_text_width(font, 14, text);
+	ix = round((iw - width)/(float)2) + ix;
+	iy = round((ih - 14)/(float)2) + iy - 2;
+	CenterText center = {ix, iy};
+	return center;
+}

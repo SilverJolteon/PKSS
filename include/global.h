@@ -28,7 +28,7 @@ char* file_to_buffer();
 char* u16str2str();
 FS_Archive InitSD(), GetArch();
 u64 InitGame(), filesize_to_u64(), GetTitleID();
-void InitGFX(), FinitGFX(), DisplayText(), Menu(), Menu2(), CheckGame(), Backup(), ReadConfig(), WriteConfig();
+void InitGFX(), FinitGFX(), DisplayText(), Menu(), Menu2(), Menu3(), CheckGame(), Backup(), ReadConfig(), WriteConfig();
 
 extern int num, fontspace, active[], entries[6];
 extern char list[6][4];
@@ -61,4 +61,11 @@ typedef struct{
 	char* name;
 }gametitle;
 
+typedef struct{
+	int InitX;
+	int InitY;
+}CenterText;
+
 gametitle getName();
+
+CenterText Center();

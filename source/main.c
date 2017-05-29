@@ -1,6 +1,6 @@
 #include "global.h"
 
-char* version = "v0.6.8";
+char* version = "v0.6.10";
 char* header;
 char list[6][4] = {"X", "Y", "OR", "AS", "S", "M"};
 int num, page = 1, fontspace = 30, entries[6] = {0, 0, 0, 0, 0, 0}, active[] = {0, 0, 0, 0, 0, 0};
