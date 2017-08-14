@@ -7,11 +7,14 @@ void ReadConfig(){
 	
 	config = fopen("/PKSS/config", "r+");
 	
-	if(config == NULL){
-		InitSD("/PKSS");
+	if(!(config = fopen("/PKSS/config", "r+"))){
+		InitSD("/PKSS", "+");
 		config = fopen("/PKSS/config", "w");
 	}
-	
+	memset(&saves[0], 0, sizeof(saves));
+	for(x = 0; x < 6; x++){
+		entries[x] = 0;
+	}
 	while(fgets(line, sizeof(line), config) != NULL){
 		if((line[0] == 'X') && (line[1] == ':')){
 			sgame = 0, toggle = 1, l = -1;
@@ -33,6 +36,9 @@ void ReadConfig(){
 		}
 		if((line[0] == '{') || (line[0] == '}')){
 			toggle = 1, l = -1;
+		}
+		if(line[0] == '|'){
+			toggle = 1, l--;
 		}
 		if((toggle == 0) && (line != NULL)){
 			char temp[64] = "";

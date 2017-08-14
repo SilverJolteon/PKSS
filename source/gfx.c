@@ -8,6 +8,7 @@ void InitGFX(){
 	top = sfil_load_PNG_buffer(top_png, SF2D_PLACE_RAM);
 	bottom = sfil_load_PNG_buffer(bottom_png, SF2D_PLACE_RAM);
 	UI = sfil_load_PNG_buffer(UI_png, SF2D_PLACE_RAM);
+	savemenu = sfil_load_PNG_buffer(savemenu_png, SF2D_PLACE_RAM);
 	blank = sfil_load_PNG_buffer(blank_png, SF2D_PLACE_RAM);
 	saveslots = sfil_load_PNG_buffer(saves_png, SF2D_PLACE_RAM);
 	cursorl = sfil_load_PNG_buffer(cursorl_png, SF2D_PLACE_RAM);

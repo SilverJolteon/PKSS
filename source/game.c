@@ -69,7 +69,7 @@ int ChooseGame(char* game){
 		gamepath = result.name;
 		titleid = result.titleid;
 		if(GetArch() == 0){
-			InitSD(result.name);
+			InitSD(result.name, "+");
 		}
 		return 1;
 	}
@@ -77,4 +77,52 @@ int ChooseGame(char* game){
 		return 0;
 	}
 	return 0;
+}
+
+void GetSaveInfo(char* directory){
+	FILE *mainfile;
+	unsigned char buffer;
+	char* temp = gamepath;
+	char* filepath = "null";
+	filepath = calloc(strlen(temp) + 5, 1);
+	sprintf(filepath, "%s/%s", temp, "main");
+	mainfile = fopen(filepath, "r+");
+	trainer[0] = '\0';
+	if((strcmp(gameversion, "S") != 0) && (strcmp(gameversion, "M") != 0)){
+		for(x = 0x14048; x < 0x14062; x+=2){
+			fseek(mainfile, x, SEEK_SET);
+			fread(&buffer, 1, 1, mainfile);
+			if(buffer != 0x0){
+				sprintf(trainer, "%s%c", trainer, buffer);
+			}
+		}
+		fseek(mainfile, 0x1801, SEEK_SET);
+		fread(&buffer, 1, 1, mainfile);
+		hour = buffer * 256;
+		fseek(mainfile, 0x1800, SEEK_SET);
+		fread(&buffer, 1, 1, mainfile);
+		hour = buffer + hour;
+		fseek(mainfile, 0x1802, SEEK_SET);
+		fread(&buffer, 1, 1, mainfile);
+		minute = buffer;
+	}
+	else{
+		for(x = 0x1238; x < 0x1254; x+=2){
+			fseek(mainfile, x, SEEK_SET);
+			fread(&buffer, 1, 1, mainfile);
+			if(buffer != 0x0){
+				sprintf(trainer, "%s%c", trainer, buffer);
+			}
+		}
+		fseek(mainfile, 0x40C01, SEEK_SET);
+		fread(&buffer, 1, 1, mainfile);
+		hour = buffer * 256;
+		fseek(mainfile, 0x40C00, SEEK_SET);
+		fread(&buffer, 1, 1, mainfile);
+		hour = buffer + hour;
+		fseek(mainfile, 0x40C02, SEEK_SET);
+		fread(&buffer, 1, 1, mainfile);
+		minute = buffer;
+	}
+	fclose(mainfile);	
 }

@@ -1,9 +1,12 @@
 #include "global.h"
 
-FS_Archive InitSD(char* directory){
+FS_Archive InitSD(char* directory, char sign[2]){
 	FSUSER_OpenArchive(&sdmc_arch, ARCHIVE_SDMC, fsMakePath(PATH_EMPTY, ""));
-	if(directory != NULL){
+	if(directory != NULL && sign[0] == '+'){
 		FSUSER_CreateDirectory(sdmc_arch, fsMakePath(PATH_ASCII, directory), 0);
+	}
+	else if(directory != NULL && sign[0] == '-'){
+		FSUSER_DeleteDirectoryRecursively(sdmc_arch, fsMakePath(PATH_ASCII, directory));
 	}
 	return 0;
 }

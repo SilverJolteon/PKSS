@@ -2,7 +2,7 @@
 
 void Backup(){
 	char* savename = GetString("Enter Save Name");
-	InitSD(InitPath(savename));
+	InitSD(InitPath(savename), "+");
 	char* file;
 	u64 size;
 	char* filepath;

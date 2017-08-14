@@ -170,7 +170,6 @@ clear:
 send:
 	@3dslink $(TARGET).3dsx
 cia:
-	@rm -fr $(BUILD) $(TARGET).3dsx $(OUTPUT).smdh $(OUTPUT).elf $(OUTPUT).cia icon.bin banner.bin
 	@cls
 	@echo Compiling...
 	@$(MAKE) --no-print-directory
