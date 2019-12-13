@@ -2,35 +2,34 @@
 
 PKSS (*Pokemon Save Selector*) is an app that adds multiple save files to Pokemon games.
 
+
+## Major Update
+
+After a few years of hiatus, I decided to come back to this project and rewrote it in C++.
+
 ## Current Progress
 
 **Currently still in development**
 
 * Checks which games are installed
-* Backs up save to location depending on game selected: (sdmc:/PKSS/`<GAME>`/`<SAVE>`/main)
-* Prompts keyboard input to name save backup
-* Reads from config file of all backed-up saves
-* Writes to config file of all backed-up saves
-* Displays save info (Trainer name and time played)
+* Backs up and restores saves to location depending on game selected: (sdmc:/PKSS/`<GAME>`/`<SAVE>`/main)
+* Reads and writes to config file to remember current save in the game
+* Automatically launches game with selected save file
+
 
 ### Todo
 
+* Read from/write to cartridge
+* Fix game backup (Keyboard input currently causes a crash for unknown reasons)
 * Edit UI
-* Restore saves
-* Launch game automatically
 * Copy saves
 * Rename saves
 * Delete saves
 * Reorder saves
 * Import from JKSM
 * LayeredFS options
-* VC Options
-* Possibly also NDS Cartridge Options
-
-* Switch to using Citro3d from sf2d
-* Switch to using buildtools to compile
-* Separate global header into multiple files
-* Add error handling
+* VC Options (Already implemented, requires updated UI)
+* Possibly also NDS cartridge Options
 
 ### Credit
 
