@@ -20,7 +20,6 @@ After a few years of hiatus, I decided to come back to this project and rewrote 
 ### Todo
 
 * Read from/write to cartridge
-* Fix game backup (Keyboard input currently causes a crash for unknown reasons)
 * Edit UI
 * Copy saves
 * Rename saves

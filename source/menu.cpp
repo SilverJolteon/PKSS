@@ -5,7 +5,7 @@
 #include "save.h"
 #define AREA(px, py, xmin, ymin, xmax, ymax) ((px < xmax && px > xmin) && (py < ymax && py > ymin))
 
-std::string version = "v0.9.0";
+std::string version = "v0.9.2";
 
 void mainmenu(){
 	
@@ -73,16 +73,13 @@ void mainmenu(){
 			savemenu(selected);
 		}
 	}
-	exitGFX();
-	romfsExit();
 }
 
 void savemenu(int game){
-	SYS::selectGame(gamelist[game]);
 	int entry = 0, page = 0, transition_offset = 0, transition_direction = 0;
 	int prev_page, next_page;
 	std::string current_save = savelist[game][getCurrent(game)]->name;
-	std::string top_text = "Press Y to backup \"" + current_save + "\"";
+	std::string top_text = "Press Y to create a new backup";
 	while(aptMainLoop()){
 		hidScanInput();
 		uint32_t kDown = hidKeysDown();
@@ -134,10 +131,9 @@ void savemenu(int game){
 		C2D_start_frame(BOTTOM_SCREEN);
 			C2D_draw_texture(BOTTOM_PNG, 0, 0);
 			if(kDown & KEY_Y){
-				SYS::backupSave(gamelist[game], current_save);
-				top_text = "Backed up \"" + current_save + "\"";
-				//std::string savename = SYS::getString("Enter Save Name");
-				//if(savename.compare("")) SYS::backupSave(gamelist[game], savename);
+				SYS::selectGame(gamelist[game]);
+				std::string savename = SYS::getString("Enter Save Name");
+				if(savename.compare("")) SYS::backupSave(gamelist[game], savename);
 			}
 			C2D_draw_text(top_text, 0, 16, 319, 16, 14, 0x404040);
 			for(size_t i = 0; i < 6 && i < savelist[game].size() - (page*6); i++){
@@ -182,6 +178,7 @@ void savefilemenu(int game, int save){
 		if(kDown & KEY_B) break;
 		if(kDown & KEY_A){
 			SYS::selectGame(gamelist[game]);
+			SYS::backupSave(gamelist[game], savelist[game][getCurrent(game)]->name);
 			SYS::restoreSave(gamelist[game], savelist[game][save]);
 			SYS::launchGame(gamelist[game]);
 		}

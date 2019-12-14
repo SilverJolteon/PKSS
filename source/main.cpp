@@ -22,5 +22,6 @@ int main(){
 	CFG::readConfig();
 	mainmenu();
 	exitGFX();
+	romfsExit();
 	return 0;
 }
