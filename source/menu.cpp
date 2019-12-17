@@ -5,7 +5,7 @@
 #include "save.h"
 #define AREA(px, py, xmin, ymin, xmax, ymax) ((px < xmax && px > xmin) && (py < ymax && py > ymin))
 
-std::string version = "v0.10";
+std::string version = "v0.11";
 
 void mainmenu(){
 	while(aptMainLoop()){

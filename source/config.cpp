@@ -16,7 +16,7 @@ void CFG::readConfig(){
 		FS::directory(SAVE_PATH, CREATE_DIR);
 		return;
 	}
-	int i = 0;
+	int i = 0, k = 0;
 	bool read = false;
 	std::string buffer;
 	while(getline(config, buffer)){		
@@ -26,10 +26,17 @@ void CFG::readConfig(){
 		}
 		if(read){
 			for(std::size_t j = 0; j < savelist[i].size(); j++){
-				if(!buffer.compare(savelist[i][j]->name)){
-					savelist[i][j]->current = true;
+				if(!buffer.substr(4).compare(savelist[i][j]->name)){
+					if(buffer[1] == '*') savelist[i][j]->current = true;
+					std::swap(savelist[i][j], savelist[i][k]);
+					if(buffer[1] == '*'){
+						auto it = savelist[i].begin() + k;
+						std::rotate(savelist[i].begin(), it, it + 1);
+					}
+					break;
 				}
 			}
+			k++;
 		}
 		
 		if(!buffer.compare("{")) read = true;		
@@ -42,7 +49,11 @@ void CFG::writeConfig(){
 	for(int i = 0; i < GAME_NUM; i++){
 		config << gamelist[i]->name << std::endl << "{";
 		for(std::size_t j = 0; j < savelist[i].size(); j++){
-			if(savelist[i][j]->current) config << std::endl << savelist[i][j]->name;
+			config << std::endl << "(";
+			if(savelist[i][j]->current) config << "*";
+			else config << " ";
+			config << ") ";
+			config << savelist[i][j]->name;
 		}
 		config << std::endl << "}" << std::endl;
 	}

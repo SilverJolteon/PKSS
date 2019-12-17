@@ -60,8 +60,8 @@ int SYS::backupSave(std::string savename){
 		}
 	}
 	if(!previous){
-		savelist[selected_game].push_back(new save_t(savename));
-		savelist[selected_game][savelist[selected_game].size()-1]->setCurrent();
+		savelist[selected_game].insert(savelist[selected_game].begin(), new save_t(savename));
+		savelist[selected_game][0]->setCurrent();
 	}
 	else{
 		savelist[selected_game][save_index]->setCurrent();
@@ -105,7 +105,6 @@ void SYS::restoreSave(){
 }
 
 void SYS::deleteSave(){
-	//game_t* game = gamelist[selected_game];
 	file_t files = FS::getFiles(game_arch, "/");
 	for(int i = 0; i < files.num; i++){
 		std::string filepath = "/" + files.data[i];

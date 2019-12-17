@@ -3,6 +3,7 @@
 
 #include <iostream>
 #include <fstream>
+#include <algorithm>
 #include "fs.h"
 #include "game.h"
 #include "save.h"
