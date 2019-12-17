@@ -25,6 +25,47 @@ char* uint162int8(uint16_t* in){
 	return out;
 }
 
+smdh_s* loadSMDH(uint64_t titleid, FS_MediaType mediatype){
+	uint32_t low = (uint32_t)titleid;
+	uint32_t high = (uint32_t)(titleid >> 32);
+	Handle handle;
+	uint32_t archpath[] = {low, high, mediatype, 0};
+	uint32_t filepath[] = {0x0, 0x0, 0x2, 0x6E6F6369, 0x0};
+	FS_Path archpath_bin = {PATH_BINARY, 0x10, archpath};
+    FS_Path filepath_bin = {PATH_BINARY, 0x14, filepath};
+	FSUSER_OpenFileDirectly(&handle, ARCHIVE_SAVEDATA_AND_CONTENT, archpath_bin, filepath_bin, FS_OPEN_READ, 0);
+	uint32_t read = 0;
+	smdh_s *smdh = new smdh_s;
+	FSFILE_Read(handle, &read, 0, smdh, sizeof(smdh_s));
+	FSFILE_Close(handle);
+	return smdh;
+}
+
+C2D_Sprite FS::getIcon(uint64_t titleid, FS_MediaType mediatype, int w, int h){
+	smdh_s *smdh = loadSMDH(titleid, mediatype);
+	C3D_Tex* tex = new C3D_Tex;
+	static constexpr Tex3DS_SubTexture subtexture = {48, 48, 0.0f, 48 / 64.0f, 48 / 64.0f, 0.0f};
+	C3D_TexInit(tex, 64, 64, GPU_RGB565);
+	tex->border = 0xFFFFFFFF;
+	C3D_TexSetWrap(tex, GPU_CLAMP_TO_BORDER, GPU_CLAMP_TO_BORDER);
+	uint16_t* dst = (uint16_t*)tex->data + (64 - 48) * 64;
+	uint16_t* src = (uint16_t*)smdh->bigIconData;
+	for(int i = 0; i < 48; i+=8){
+		std::copy(src, src + 48 * 8, dst);
+		src += 48 * 8;
+		dst += 64 * 8;
+	}
+	C2D_Sprite icon;
+	C2D_SpriteFromImage(&icon, C2D_Image{tex, &subtexture});
+	C2D_SpriteScale(&icon, w/48.0f, h/48.0f);
+	return icon;
+}
+
+std::string FS::getTitle(uint64_t ID, FS_MediaType mediatype){
+	smdh_s *smdh = loadSMDH(ID, mediatype);
+	return std::string(uint162int8((uint16_t *)smdh->applicationTitles[1].shortDescription));
+}
+
 dir_t FS::getDirs(std::string path){
 	Handle handle;
 	dir_t dirs;
@@ -95,3 +136,4 @@ uint64_t FS::int82uint64(FS_Archive arch, std::string filepath){
 	FSFILE_Close(file_handle);
 	return filesize;
 }
+

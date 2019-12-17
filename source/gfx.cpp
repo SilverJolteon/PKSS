@@ -48,8 +48,14 @@ void C2D_draw_texture(size_t index, int x, int y){
 	C2D_DrawSprite(&sprites[index]);
 }
 
+void C2D_draw_texture(C2D_Sprite sprite, int x, int y){
+	sprite.params.pos.x = x;
+	sprite.params.pos.y = y;
+	C2D_DrawSprite(&sprite);
+}
+
 void C2D_draw_text(std::string str, int x0, int y0, int x1, int y1, int size, uint32_t color){
-	color = (((color & 0x0000FF) << 16) | (color & 0x00FF00) | ((color & 0xFF0000) >> 16)) | 0xFF000000;
+	color = (((color & 0xFF) << 24) | ((color & 0xFF00) << 8) | ((color & 0xFF0000) >> 8) | ((color & 0xFF000000) >> 24));
 	float x, y, width = 0;
 	float sizef = size * (0.5/(float)16);
 	C2D_Text text;

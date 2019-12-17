@@ -1,6 +1,6 @@
 # PKSS
 
-PKSS (*Pokemon Save Selector*) is an app that adds multiple save files to Pokemon games.
+PKSS (*Pokemon Save Selector*) is an app that essentially allows the user to have mutiple Pokemon game saves.
 
 
 ## Major Update
@@ -12,10 +12,9 @@ After a few years of hiatus, I decided to come back to this project and rewrote 
 **Currently still in development**
 
 * Checks which games are installed
-* Backs up and restores saves to location depending on game selected: (sdmc:/PKSS/`<GAME>`/`<SAVE>`/main)
+* Backs up and restores saves to location depending on game selected: (sdmc:/PKSS/`<GAME>`/`<SAVE>`/)
 * Reads and writes to config file to remember current save in the game
 * Automatically launches game with selected save file
-
 
 ### Todo
 

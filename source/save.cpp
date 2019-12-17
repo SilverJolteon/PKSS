@@ -25,27 +25,19 @@ void save_t::getTime(){
 	time += std::to_string(seconds);
 }
 
-int save_t::getIndex(int game){
-	for(std::size_t i = 0; i < savelist[game].size(); i++){
-		if(!name.compare(savelist[game][i]->name)){
-			return i;
-		}
-	}
-	return 0;
-}
-
-void save_t::setCurrent(int game){
-	for(size_t i = 0; i < savelist[game].size(); i++){
-		savelist[game][i]->current = false;
+void save_t::setCurrent(){
+	for(size_t i = 0; i < savelist[selected_game].size(); i++){
+		savelist[selected_game][i]->current = false;
 	}
 	current = true;
 }
 
-int getCurrent(int game){
-	for(size_t i = 0; i < savelist[game].size(); i++){
-		if(savelist[game][i]->current) return i;
+int getCurrent(){
+	for(size_t i = 0; i < savelist[selected_game].size(); i++){
+		if(savelist[selected_game][i]->current) return i;
 	}
-	return 0;
+	return -1;
 }
 
 std::vector<std::vector<save_t*>> savelist(GAME_NUM);
+int selected_save = 0;

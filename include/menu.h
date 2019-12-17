@@ -6,7 +6,7 @@
 extern std::string version;
 
 void mainmenu();
-void savemenu(int game);
-void savefilemenu(int game, int save);
+void savemenu();
+void savefilemenu();
 
 #endif

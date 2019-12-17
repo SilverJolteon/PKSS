@@ -6,7 +6,6 @@ void CFG::readConfig(){
 		dir_t saves = FS::getDirs(SAVE_PATH + "/" + gamelist[i]->name + "/");
 		for(int j = 0; j < saves.num; j++){
 			std::string savepath = SAVE_PATH + "/" + gamelist[i]->name + "/" + saves.data[j];
-			//savelist[i].push_back(new save_t(saves.data[j]));
 			file_t files = FS::getFiles(sdmc_arch, savepath);
 			if(files.num > 0) savelist[i].push_back(new save_t(saves.data[j]));
 			else FSUSER_DeleteDirectoryRecursively(sdmc_arch, fsMakePath(PATH_ASCII, savepath.c_str()));

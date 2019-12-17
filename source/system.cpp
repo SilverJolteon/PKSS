@@ -21,7 +21,8 @@ std::string SYS::getString(std::string description){
 	return name;
 }
 
-void SYS::selectGame(game_t* &game){
+void selectGame(){
+	game_t* game = gamelist[selected_game];
 	FS_Path game_binpath;
 	uint32_t lowerid = (uint32_t)(game->titleid);
 	uint32_t upperid = (uint32_t)(game->titleid >> 32);
@@ -30,7 +31,9 @@ void SYS::selectGame(game_t* &game){
 	FSUSER_OpenArchive(&game_arch, ARCHIVE_USER_SAVEDATA, game_binpath);
 }
 
-int SYS::backupSave(game_t* &game, std::string savename){
+int SYS::backupSave(std::string savename){
+	selectGame();
+	game_t* game = gamelist[selected_game];
 	FS::directory(SAVE_PATH + "/" + game->name, CREATE_DIR);
 	std::string savepath = SAVE_PATH + "/" + game->name + "/" + savename;
 	FS::directory(savepath, DELETE_DIR);
@@ -48,29 +51,32 @@ int SYS::backupSave(game_t* &game, std::string savename){
 		}
 	}
 	
-	int index = game->getIndex();
 	bool previous = false;
-	int pre_index;
-	for(size_t i = 0; i < savelist[index].size(); i++){
-		if(!savename.compare(savelist[index][i]->name)){
+	int save_index;
+	for(size_t i = 0; i < savelist[selected_game].size(); i++){
+		if(!savename.compare(savelist[selected_game][i]->name)){
 			previous = true;
-			pre_index = i;
+			save_index = i;
 		}
 	}
 	if(!previous){
-		savelist[index].push_back(new save_t(savename));
-		savelist[index][savelist[index].size()-1]->setCurrent(index);
+		savelist[selected_game].push_back(new save_t(savename));
+		savelist[selected_game][savelist[selected_game].size()-1]->setCurrent();
 	}
 	else{
-		savelist[index][pre_index]->setCurrent(index);
+		savelist[selected_game][save_index]->setCurrent();
 	}
 	CFG::writeConfig();
 	return 0;
 }
 
-void SYS::restoreSave(game_t* &game, save_t* &save){
+void SYS::restoreSave(){
+	selectGame();
+	game_t* game = gamelist[selected_game];
+	save_t* save = savelist[selected_game][selected_save];
 	if(save == NULL) return;
 	std::string savepath = SAVE_PATH + "/" + game->name + "/" + save->name + "/";
+	
 	FSUSER_OpenArchive(&sdmc_arch, ARCHIVE_SDMC, fsMakePath(PATH_EMPTY, ""));
 	
 	file_t sdmc_files = FS::getFiles(sdmc_arch, savepath);
@@ -81,6 +87,7 @@ void SYS::restoreSave(game_t* &game, save_t* &save){
 			FSUSER_DeleteFile(game_arch, fsMakePath(PATH_ASCII, filepath.c_str()));
 		}
 	}
+	
 	for(int i = 0; i < sdmc_files.num; i++){
 		char* buffer = FS::fileToBuffer(sdmc_arch, savepath, sdmc_files.data[i]);
 		std::string filepath = savepath + sdmc_files.data[i];
@@ -93,13 +100,12 @@ void SYS::restoreSave(game_t* &game, save_t* &save){
 	uint8_t secureout;
 	FSUSER_ControlSecureSave(SECURESAVE_ACTION_DELETE, &securein, 8, &secureout, 1);
 	
-	int game_index = game->getIndex();
-	int save_index = save->getIndex(game_index);
-	savelist[game_index][save_index]->setCurrent(game_index);
+	savelist[selected_game][selected_save]->setCurrent();
 	CFG::writeConfig();
 }
 
-void SYS::deleteSave(game_t* &game){
+void SYS::deleteSave(){
+	//game_t* game = gamelist[selected_game];
 	file_t files = FS::getFiles(game_arch, "/");
 	for(int i = 0; i < files.num; i++){
 		std::string filepath = "/" + files.data[i];
@@ -108,7 +114,9 @@ void SYS::deleteSave(game_t* &game){
 	FSUSER_ControlArchive(game_arch, ARCHIVE_ACTION_COMMIT_SAVE_DATA, NULL, 0, NULL, 0);
 }
 
-void SYS::launchGame(game_t* &game){
+void SYS::launchGame(){
+	selectGame();
+	game_t* game = gamelist[selected_game];
 	uint8_t param[0x300];
 	uint8_t hmac[0x20];
 	memset(param, 0, sizeof(param));

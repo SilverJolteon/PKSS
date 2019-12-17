@@ -10,11 +10,10 @@
 
 namespace SYS{
 	std::string getString(std::string description);
-	void selectGame(game_t* &game);
-	int backupSave(game_t* &game, std::string savename);
-	void restoreSave(game_t* &game, save_t* &save);
-	void deleteSave(game_t* &game);
-	void launchGame(game_t* &game);
+	int backupSave(std::string savename);
+	void restoreSave();
+	void deleteSave();
+	void launchGame();
 }
 
 #endif
